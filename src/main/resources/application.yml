@@ -1,0 +1,42 @@
+﻿logging:
+  level:
+    com.pinncode.service.kafkalistener: DEBUG
+    org.springframework.kafka: INFO
+    org.apache.kafka: WARN
+    org.springframework.retry: INFO
+
+# Configuración personalizada de Kafka
+kafka:
+  server: localhost:9092
+  consumer:
+    topic: visit-request-topic
+    group-id: kafka-mdp-consumer-group
+    auto-offset-reset: earliest
+    enable-auto-commit: false
+    max-poll-records: 1
+    session-timeout-ms: 20000
+    heartbeat-interval-ms: 6000
+    health-topic: health-check
+  connection:
+    retry:
+      enabled: true
+      max-attempts: 3
+      initial-interval: 5000
+      max-interval: 30000
+      multiplier: 2.0
+    timeout:
+      connection-timeout: 15000
+      request-timeout: 30000
+    health-check:
+      enabled: true
+      interval: 1800000
+      timeout: 15000
+
+# Configuración de Actuator para monitoreo
+management:
+  endpoint:
+    health:
+      show-details: always
+  health:
+    diskspace:
+      enabled: false
